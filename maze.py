@@ -43,6 +43,7 @@ class Maze:
     def __init__(self):
        self.M = 10
        self.N = 8
+       self.maze_blocks = []
        self.maze = [ 1,1,1,1,1,1,1,1,1,1,
                      1,0,0,0,0,0,0,0,0,1,
                      1,0,0,0,0,0,0,0,0,1,
@@ -51,23 +52,23 @@ class Maze:
                      1,0,1,0,1,1,1,1,0,1,
                      1,0,0,0,0,0,0,0,0,1,
                      1,1,1,1,1,1,1,1,1,1,]
+       self.create_blocks()
+
+    def create_blocks(self):
+        bx = 0
+        by = 0
+        for i in range(0,self.M*self.N):
+            if self.maze[ bx + (by*self.M) ] == 1:
+                self.maze_blocks.append([bx * 44 , by * 44])
+            bx = bx + 1
+            if bx > self.M-1:
+                bx = 0 
+                by = by + 1
+
 
     def draw(self,display_surf,image_surf):
-       global block_size
-       block_size -= 0.01
-    #    self._block_surf = pygame.transform.scale(self._block_surf, (int(block_size), int(block_size)))
-    #    image_surf = pygame.transform.scale(image_surf, (int(45), int(45)))
-
-       bx = 0
-       by = 0
-       for i in range(0,self.M*self.N):
-           if self.maze[ bx + (by*self.M) ] == 1:
-               display_surf.blit(image_surf,( bx * 44 , by * 44))
-
-           bx = bx + 1
-           if bx > self.M-1:
-               bx = 0 
-               by = by + 1
+       for block in self.maze_blocks:
+           display_surf.blit(image_surf,( block[0] , block[1]))
 
 
 class App:
@@ -104,6 +105,8 @@ class App:
  
     def on_loop(self):
         pass
+        # for block in self.maze.maze_blocks:
+        #     if player.
     
     def on_render(self):
         self._display_surf.fill((0,0,0))
